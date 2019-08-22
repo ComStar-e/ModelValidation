@@ -14,10 +14,34 @@ namespace ModelValidation.Controllers
         public ViewResult MakeBooking(Appointment appt)
         {
 
-            if (string.IsNullOrEmpty(appt.ClientName))
+            /// Rem После применения атрибутов в классе МОДЕЛИ !!!
+            /// 
+            ///
+            /*if (string.IsNullOrEmpty(appt.ClientName))
             {
                 ModelState.AddModelError(nameof(appt.ClientName), "Enter Your Name");
                 // Введите свое имя
+            }
+
+            if(ModelState.GetValidationState("Date") == ModelValidationState.Valid && DateTime.Now > appt.Date)
+            {
+                ModelState.AddModelError(nameof(appt.Date), "Please enter a data in future");
+            }
+
+            if(!appt.TermsAccepted)
+            {
+                ModelState.AddModelError(nameof(appt.TermsAccepted),"Please Accept Terms");
+            }*/
+
+            if (ModelState.GetValidationState(nameof(appt.Date))
+                    == ModelValidationState.Valid
+                && ModelState.GetValidationState(nameof(appt.ClientName))
+                    == ModelValidationState.Valid
+                && appt.ClientName.Equals("Joe", StringComparison.OrdinalIgnoreCase)
+                && appt.Date.DayOfWeek == DayOfWeek.Monday)
+            {
+                ModelState.AddModelError("",
+                    "Joe cannot book appointments on Mondays");
             }
 
 
